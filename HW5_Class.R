@@ -38,19 +38,18 @@ setAs("sparse_numeric", "numeric", function(from) {
   out
 })
 
-## ---- Helpers ----
+##  Helpers 
 .mk  <- function(v, p, n) new("sparse_numeric", value = v, pos = p, length = as.integer(n))
 .chk <- function(x, y) if (x@length != y@length) stop("Lengths differ", call. = FALSE)
 
-## ---- Generics ----
+## Generics 
 setGeneric("sparse_add",       function(x, y, ...) standardGeneric("sparse_add"))
 setGeneric("sparse_sub",       function(x, y, ...) standardGeneric("sparse_sub"))
 setGeneric("sparse_mult",      function(x, y, ...) standardGeneric("sparse_mult"))
 setGeneric("sparse_crossprod", function(x, y, ...) standardGeneric("sparse_crossprod"))
 
-## ---- Methods ----
+##  Methods 
 # add/sub: union of positions
-## --- replace your .addsub() and the two setMethod() calls with these ---
 
 # merge-based addition
 .sparse_add_merge <- function(x, y) {
@@ -131,13 +130,13 @@ setMethod("-", signature(e1="sparse_numeric", e2="sparse_numeric"),
 setMethod("*", signature(e1="sparse_numeric", e2="sparse_numeric"),
           function(e1, e2) sparse_mult(e1, e2))
 
-## ---- show() ----
+## show() 
 setMethod("show", "sparse_numeric", function(object) {
   cat("sparse_numeric: length =", object@length,
       " nonzeros =", length(object@pos), "\n")
 })
 
-## ---- plot(x, y): mark overlaps simply ----
+##  plot(x, y): 
 setMethod("plot", signature(x="sparse_numeric", y="sparse_numeric"),
           function(x, y, ...) {
             .chk(x, y)
@@ -150,6 +149,6 @@ setMethod("plot", signature(x="sparse_numeric", y="sparse_numeric"),
             legend("topright", bty="n", legend=c("x","y","overlap"), pch=c(1,3,16))
           })
 
-## ---- extra method: sum() ----
+## extra method: sum(
 setMethod("sum", signature(x="sparse_numeric"),
           function(x, ..., na.rm = FALSE) sum(x@value, ..., na.rm = na.rm))
